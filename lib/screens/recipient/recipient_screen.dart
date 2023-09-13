@@ -14,20 +14,28 @@ class RecipientScreen extends StatefulWidget {
 
 class _RecipientScreenState extends State<RecipientScreen> {
   List<RecipientModel> recipients = [];
+  bool load = true;
 
   @override
   void initState() {
     super.initState();
     getRecipients().then((value) {
+      recipients = value;
+        if (recipients.isNotEmpty) {
+          load = false;
+        }
       setState(() {
-        recipients = value;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return recipients.isNotEmpty ? RecipientListView(recipients: recipients,) : const RecipientEmptyView();
+    return load?const Scaffold(body: Center(child: CupertinoActivityIndicator(),)):
+    recipients.isNotEmpty
+        ? RecipientListView(
+            recipients: recipients,
+          )
+        : const RecipientEmptyView();
   }
 }
-

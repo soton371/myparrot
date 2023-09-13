@@ -101,7 +101,6 @@ class RecipientEmptyView extends StatelessWidget {
                                         ]);
                                     return;
                                   }
-                                  //here double number check
 
                                   //here add recipient
                                   addRecipient(
@@ -110,7 +109,11 @@ class RecipientEmptyView extends StatelessWidget {
                                       .then((value1) {
                                     getRecipients().then((value) {
                                       Navigator.pushReplacement(
-                                          context, CupertinoPageRoute(builder: (_)=>RecipientListView(recipients: value,)));
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (_) => RecipientListView(
+                                                    recipients: value,
+                                                  )));
                                     });
                                   });
                                 },
