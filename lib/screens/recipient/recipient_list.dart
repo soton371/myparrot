@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/recipient_mod.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
@@ -16,10 +17,11 @@ class RecipientListView extends StatefulWidget {
 }
 
 class _RecipientListViewState extends State<RecipientListView> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController numberController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Recipient"),
@@ -27,6 +29,8 @@ class _RecipientListViewState extends State<RecipientListView> {
         actions: [
           IconButton(
               onPressed: () {
+                nameController.clear();
+                        numberController.clear();
                 showCupertinoDialog(
                     context: context,
                     barrierDismissible: false,
@@ -148,20 +152,143 @@ class _RecipientListViewState extends State<RecipientListView> {
           itemCount: widget.recipients.length,
           itemBuilder: (context, index) {
             final data = widget.recipients[index];
-            return RecipientTile(
-              recipient: data,
-            );
+            return Slidable(
+                endActionPane: ActionPane(
+                  motion: const DrawerMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (_) {
+                        nameController.clear();
+                        numberController.clear();
+                        nameController = TextEditingController(text: data.name);
+                        numberController =
+                            TextEditingController(text: data.number);
+                        showCupertinoDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (_) => CupertinoAlertDialog(
+                                  title: const Text("Edit Recipient"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      MyTextField(
+                                        textController: nameController,
+                                        placeholder: "Edit recipient name",
+                                        inputType: TextInputType.name,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      MyTextField(
+                                        textController: numberController,
+                                        placeholder: "Edit recipient number",
+                                        inputType: TextInputType.number,
+                                      )
+                                    ],
+                                  ),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      isDestructiveAction: true,
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("Cancel"),
+                                    ),
+                                    CupertinoDialogAction(
+                                      child: const Text("Update"),
+                                      onPressed: () {
+                                        //all validation here
+                                        if (nameController.text
+                                                .trim()
+                                                .isEmpty ||
+                                            nameController.text.trim().length <
+                                                3) {
+                                          myDialog(
+                                              context: context,
+                                              title: "Warning",
+                                              content: const Text(
+                                                  "Please enter recipient full name"),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  child:
+                                                      const Text("Try again!"),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                )
+                                              ]);
+                                          return;
+                                        }
+
+                                        if (numberController.text
+                                                .trim()
+                                                .length !=
+                                            11) {
+                                          myDialog(
+                                              context: context,
+                                              title: "Warning",
+                                              content: const Text(
+                                                  "Please enter 11-digit number"),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  child:
+                                                      const Text("Try again!"),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                )
+                                              ]);
+                                          return;
+                                        }
+
+                                        //here edit recipient
+                                        updateRecipient(
+                                                recipient: data,
+                                                newName: nameController.text,
+                                                newNumber:
+                                                    numberController.text)
+                                            .then((value1) {
+                                          getRecipients().then((value) {
+                                            setState(() {
+                                              widget.recipients = value;
+                                            });
+                                            Navigator.pop(context);
+                                          });
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ));
+                      },
+                      backgroundColor: MyColors.seed,
+                      foregroundColor: Colors.white,
+                      icon: CupertinoIcons.pen,
+                      label: 'Edit',
+                    ),
+                    SlidableAction(
+                      onPressed: (_) {
+                        deleteRecipient(widget.recipients[index])
+                            .then((value1) {
+                          getRecipients().then((value) {
+                            setState(() {
+                              widget.recipients = value;
+                            });
+                          });
+                        });
+                      },
+                      backgroundColor: MyColors.dismiss,
+                      foregroundColor: Colors.white,
+                      icon: CupertinoIcons.trash,
+                      label: 'Delete',
+                    ),
+                  ],
+                ),
+                child: RecipientTile(
+                  recipient: data,
+                ));
+            // RecipientTile(
+            //   recipient: data,
+            // );
           }),
     );
   }
 }
-
-/*
-//here double number check
-                                  getRecipients().then((value) {
-                                    final dublicate = value
-                                        .contains(numberController.text.trim());
-
-                                    debugPrint("dublicate: $dublicate");
-                                  });
-*/

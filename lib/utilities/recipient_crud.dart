@@ -20,13 +20,13 @@ Future<int> updateRecipient(
     {required RecipientModel recipient,
     required String newName,
     required String newNumber}) async {
-  RecipientModel updatedRecipientModel = RecipientModel(
+  RecipientModel updatedRecipient = RecipientModel(
     id: recipient.id,
     name: newName.isNotEmpty ? newName : recipient.name,
     number: newNumber.isNotEmpty ? newNumber : recipient.number,
   );
   int result =
-      await DatabaseHelper.instance.updateRecipient(updatedRecipientModel);
+      await DatabaseHelper.instance.updateRecipient(updatedRecipient);
 
   return result;
 }
