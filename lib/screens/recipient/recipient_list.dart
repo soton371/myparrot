@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myparrot/configs/my_colors.dart';
+import 'package:myparrot/models/recipient_mod.dart';
+import 'package:myparrot/widgets/recipient_tile.dart';
 
 class RecipientListView extends StatelessWidget {
-  const RecipientListView({super.key});
+  const RecipientListView({super.key, required this.recipients});
+  final List<RecipientModel> recipients;
 
   @override
   Widget build(BuildContext context) {
@@ -20,60 +23,10 @@ class RecipientListView extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-          itemCount: 10,
+          itemCount: recipients.length,
           itemBuilder: (context, index) {
-            return Card(
-              shadowColor: Colors.transparent,
-              color: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //for icon
-                    ClipOval(
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        color: MyColors.myRandomColor(),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "$index",
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    //end icon
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Recipient $index',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '0151860639$index',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: MyColors.disable
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
+            final data = recipients[index];
+            return RecipientTile(recipient: data,);
           }),
     );
   }

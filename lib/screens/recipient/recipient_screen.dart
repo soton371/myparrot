@@ -27,8 +27,7 @@ class _RecipientScreenState extends State<RecipientScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return recipients.isNotEmpty ? const RecipientListView() : const RecipientEmptyView();
-    // return const RecipientListView();
+    return recipients.isNotEmpty ? RecipientListView(recipients: recipients,) : const RecipientEmptyView();
   }
 }
 

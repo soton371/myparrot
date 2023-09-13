@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/configs/my_sizes.dart';
+import 'package:myparrot/screens/recipient/recipient_list.dart';
+import 'package:myparrot/utilities/recipient_crud.dart';
+import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_text_field.dart';
 
 class RecipientEmptyView extends StatelessWidget {
@@ -43,6 +46,7 @@ class RecipientEmptyView extends StatelessWidget {
                                 MyTextField(
                                   textController: nameController,
                                   placeholder: "Enter recipient name",
+                                  inputType: TextInputType.name,
                                 ),
                                 const SizedBox(
                                   height: 10,
@@ -50,6 +54,7 @@ class RecipientEmptyView extends StatelessWidget {
                                 MyTextField(
                                   textController: numberController,
                                   placeholder: "Enter recipient number",
+                                  inputType: TextInputType.number,
                                 )
                               ],
                             ),
@@ -63,6 +68,51 @@ class RecipientEmptyView extends StatelessWidget {
                                 child: const Text("Save"),
                                 onPressed: () {
                                   //all validation here
+                                  if (nameController.text.trim().isEmpty ||
+                                      nameController.text.trim().length < 3) {
+                                    myDialog(
+                                        context: context,
+                                        title: "Warning",
+                                        content: const Text(
+                                            "Please enter recipient full name"),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: const Text("Try again!"),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          )
+                                        ]);
+                                    return;
+                                  }
+
+                                  if (numberController.text.trim().length !=
+                                      11) {
+                                    myDialog(
+                                        context: context,
+                                        title: "Warning",
+                                        content: const Text(
+                                            "Please enter 11-digit number"),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: const Text("Try again!"),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          )
+                                        ]);
+                                    return;
+                                  }
+                                  //here double number check
+
+                                  //here add recipient
+                                  addRecipient(
+                                          name: nameController.text.trim(),
+                                          number: numberController.text.trim())
+                                      .then((value1) {
+                                    getRecipients().then((value) {
+                                      Navigator.pushReplacement(
+                                          context, CupertinoPageRoute(builder: (_)=>RecipientListView(recipients: value,)));
+                                    });
+                                  });
                                 },
                               ),
                             ],

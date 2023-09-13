@@ -7,8 +7,7 @@ Future<List<RecipientModel>> getRecipients() async {
   return recipientList;
 }
 
-Future<int> addRecipientModel(
-    {required String name, required String number}) async {
+Future<int> addRecipient({required String name, required String number}) async {
   RecipientModel newRecipientModel = RecipientModel(
     name: name,
     number: number,
@@ -17,7 +16,7 @@ Future<int> addRecipientModel(
   return result;
 }
 
-Future<int> updateRecipientModel(
+Future<int> updateRecipient(
     {required RecipientModel recipient,
     required String newName,
     required String newNumber}) async {
@@ -32,7 +31,7 @@ Future<int> updateRecipientModel(
   return result;
 }
 
-Future<int> deleteRecipientModel(RecipientModel recipient) async {
+Future<int> deleteRecipient(RecipientModel recipient) async {
   int result = await DatabaseHelper.instance.deleteRecipient(recipient.id!);
   return result;
 }
