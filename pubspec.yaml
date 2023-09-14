@@ -45,6 +45,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   intl: ^0.18.1
   unique_identifier: ^0.3.0
+  forked_slider_button: ^2.0.2
 
 flutter_native_splash:
   color: "#ffffff"

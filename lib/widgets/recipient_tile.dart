@@ -19,7 +19,6 @@ class RecipientTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //for icon
               ClipOval(
@@ -47,6 +46,7 @@ class RecipientTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 16
                     ),
                   ),
                   Text(
