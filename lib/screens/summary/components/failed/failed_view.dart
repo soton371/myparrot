@@ -1,29 +1,29 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myparrot/blocs/delivery/delivery_bloc.dart';
+import 'package:myparrot/blocs/failed/failed_bloc.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/configs/my_sizes.dart';
-import 'package:myparrot/screens/summary/components/delivery/delivery_listview.dart';
+import 'package:myparrot/screens/summary/components/failed/failed_listview.dart';
 
-class DeliveryView extends StatelessWidget {
-  const DeliveryView({super.key});
+class FailedView extends StatelessWidget {
+  const FailedView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     context
-        .read<DeliveryBloc>()
-        .add(FetchDeliveryMsg(deviceId: identifierBloc.identifier));
-
-    return BlocBuilder<DeliveryBloc, DeliveryState>(builder: (context, state) {
-      if (state is DeliveryFetchLoading) {
+        .read<FailedBloc>()
+        .add(FetchFailedMsg(deviceId: identifierBloc.identifier));
+    return BlocBuilder<FailedBloc, FailedState>(builder: (context, state) {
+      if (state is FailedFetchLoading) {
         return const Center(
           child: CupertinoActivityIndicator(),
         );
-      } else if (state is DeliveryFetched) {
-        return DeliveryListView(deliveryMsgs: state.deliveryMsgList);
-      } else if (state is DeliveryFetchFailed) {
+      } else if (state is FailedFetched) {
+        return FailedListView(failedMsgs: state.failedMsgList);
+      } else if (state is FailedFetchFailed) {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

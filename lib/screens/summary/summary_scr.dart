@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myparrot/screens/summary/components/delivery/delivery_view.dart';
+import 'package:myparrot/screens/summary/components/failed/failed_view.dart';
 import 'package:myparrot/screens/summary/components/pending/pending_view.dart';
 
 class SummaryScreen extends StatelessWidget {
@@ -30,9 +31,7 @@ class SummaryScreen extends StatelessWidget {
             children: [
               PendingView(),
               DeliveryView(),
-              Center(
-                child: Text("Failed"),
-              ),
+              FailedView(),
             ],
           ),
         ));

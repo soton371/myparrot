@@ -2,13 +2,12 @@ part of 'delivery_bloc.dart';
 
 sealed class DeliveryState extends Equatable {
   const DeliveryState();
-  
+
   @override
   List<Object> get props => [];
 }
 
 final class DeliveryInitial extends DeliveryState {}
-
 
 final class DeliveryFetchLoading extends DeliveryState {}
 
