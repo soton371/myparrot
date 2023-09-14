@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:myparrot/screens/summary/components/delivery/delivery_view.dart';
 import 'package:myparrot/screens/summary/components/pending/pending_view.dart';
 
-class SummaryScreen extends StatefulWidget {
+class SummaryScreen extends StatelessWidget {
   const SummaryScreen({super.key});
 
-  @override
-  State<SummaryScreen> createState() => _SummaryScreenState();
-}
-
-class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -33,9 +29,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           body: const TabBarView(
             children: [
               PendingView(),
-              Center(
-                child: Text("Delivery"),
-              ),
+              DeliveryView(),
               Center(
                 child: Text("Failed"),
               ),
