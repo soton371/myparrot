@@ -18,15 +18,15 @@ class DeliveryListTile extends StatelessWidget {
         color: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //for icon
               ClipOval(
                 child: Container(
-                  height: 45,
-                  width: 45,
+                  height: 43,
+                  width: 43,
                   color: MyColors.myRandomColor(),
                   alignment: Alignment.center,
                   child: Text(

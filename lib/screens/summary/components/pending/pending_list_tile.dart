@@ -25,8 +25,8 @@ class PendingListTile extends StatelessWidget {
               //for icon
               ClipOval(
                 child: Container(
-                  height: 45,
-                  width: 45,
+                  height: 43,
+                  width: 43,
                   color: MyColors.myRandomColor(),
                   alignment: Alignment.center,
                   child: Text(

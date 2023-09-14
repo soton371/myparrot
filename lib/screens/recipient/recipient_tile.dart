@@ -23,8 +23,8 @@ class RecipientTile extends StatelessWidget {
               //for icon
               ClipOval(
                 child: Container(
-                  height: 45,
-                  width: 45,
+                  height: 43,
+                  width: 43,
                   color: MyColors.myRandomColor(),
                   alignment: Alignment.center,
                   child: Text(
@@ -46,7 +46,7 @@ class RecipientTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 18
+                      fontSize: 17
                     ),
                   ),
                   Text(
