@@ -7,6 +7,7 @@ import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/message_mod.dart';
+import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_loader.dart';
 
@@ -48,12 +49,8 @@ class _MessageScreenState extends State<MessageScreen> {
           if (state is SendMsgLoading) {
             myLoader(context, "Please wait..");
           } else if (state is SendMsgSuccess) {
-            myDialog(context: context, title: "Route Summary", actions: [
-              CupertinoDialogAction(
-                child: const Text("Ok"),
-                onPressed: () => Navigator.pop(context),
-              )
-            ]);
+            Navigator.pushReplacement(
+                context, CupertinoPageRoute(builder: (_) => const SummaryScreen()));
           } else if (state is SendMsgFailed) {
             Navigator.pop(context);
             myDialog(

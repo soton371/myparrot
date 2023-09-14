@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
+import 'package:myparrot/blocs/pending/pending_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/screens/recipient/recipient_screen.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SendMsgBloc>(
           create: (BuildContext context) => SendMsgBloc(),
+        ),
+        BlocProvider<PendingBloc>(
+          create: (BuildContext context) => PendingBloc(),
         ),
       ],
       child: MaterialApp(
