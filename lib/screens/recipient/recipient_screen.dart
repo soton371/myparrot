@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myparrot/models/recipient_mod.dart';
 import 'package:myparrot/screens/recipient/recipient_empty.dart';
 import 'package:myparrot/screens/recipient/recipient_list.dart';
+import 'package:myparrot/utilities/generate_identifier.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
 
 class RecipientScreen extends StatefulWidget {
@@ -21,21 +22,23 @@ class _RecipientScreenState extends State<RecipientScreen> {
     super.initState();
     getRecipients().then((value) {
       recipients = value;
-        if (recipients.isNotEmpty) {
-          load = false;
-        }
-      setState(() {
-      });
+      load = false;
+      setState(() {});
     });
+    generateIdentifier();
   }
 
   @override
   Widget build(BuildContext context) {
-    return load?const Scaffold(body: Center(child: CupertinoActivityIndicator(),)):
-    recipients.isNotEmpty
-        ? RecipientListView(
-            recipients: recipients,
-          )
-        : const RecipientEmptyView();
+    return load
+        ? const Scaffold(
+            body: Center(
+            child: CupertinoActivityIndicator(),
+          ))
+        : recipients.isNotEmpty
+            ? RecipientListView(
+                recipients: recipients,
+              )
+            : const RecipientEmptyView();
   }
 }
