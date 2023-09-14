@@ -6,3 +6,15 @@ sealed class SendMsgEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class DoSendMsg extends SendMsgEvent {
+  const DoSendMsg(
+      {required this.deviceId,
+      required this.message,
+      required this.name,
+      required this.phones,
+      required this.scheduledAt});
+  final String deviceId, message, scheduledAt, phones, name;
+  @override
+  List<Object> get props => [deviceId, message, scheduledAt, phones, name];
+}

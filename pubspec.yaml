@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.18.1
   unique_identifier: ^0.3.0
   forked_slider_button: ^2.0.2
+  http: ^1.1.0
 
 flutter_native_splash:
   color: "#ffffff"

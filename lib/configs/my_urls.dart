@@ -5,5 +5,6 @@ class MyUrls {
   static const String delivery = "$baseUrl/deliver-sms";
   static const String failed = "$baseUrl/error-sms";
   static const String calender = "$baseUrl/calender-view";
+  static const String sendSms = "$baseUrl/send-sms";
 }
 

@@ -30,7 +30,7 @@ class _RecipientListViewState extends State<RecipientListView> {
           IconButton(
               onPressed: () {
                 nameController.clear();
-                        numberController.clear();
+                numberController.clear();
                 showCupertinoDialog(
                     context: context,
                     barrierDismissible: false,
@@ -84,6 +84,23 @@ class _RecipientListViewState extends State<RecipientListView> {
                                   return;
                                 }
 
+                                if (!nameController.text.trim().startsWith(
+                                    RegExp(r'^[a-zA-Z][a-zA-Z ]'))) {
+                                  myDialog(
+                                      context: context,
+                                      title: "Warning",
+                                      content: const Text(
+                                          'Name must start with a letter'),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text("Try again"),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                        )
+                                      ]);
+                                  return;
+                                }
+
                                 if (numberController.text.trim().length != 11) {
                                   myDialog(
                                       context: context,
@@ -93,6 +110,23 @@ class _RecipientListViewState extends State<RecipientListView> {
                                       actions: [
                                         CupertinoDialogAction(
                                           child: const Text("Try again!"),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                        )
+                                      ]);
+                                  return;
+                                }
+
+                                if (numberController.text.trim().contains(
+                                    RegExp(r'^[a-zA-Z][a-zA-Z ]'))) {
+                                  myDialog(
+                                      context: context,
+                                      title: "Warning",
+                                      content: const Text(
+                                          'Number must be numeric'),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text("Try again"),
                                           onPressed: () =>
                                               Navigator.pop(context),
                                         )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
+import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/screens/recipient/recipient_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<IdentifierBloc>(
           create: (BuildContext context) => IdentifierBloc(),
+        ),
+        BlocProvider<SendMsgBloc>(
+          create: (BuildContext context) => SendMsgBloc(),
         ),
       ],
       child: MaterialApp(

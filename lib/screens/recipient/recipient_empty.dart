@@ -77,7 +77,23 @@ class RecipientEmptyView extends StatelessWidget {
                                             "Please enter recipient full name"),
                                         actions: [
                                           CupertinoDialogAction(
-                                            child: const Text("Try again!"),
+                                            child: const Text("Try again"),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          )
+                                        ]);
+                                    return;
+                                  }
+                                  if (!nameController.text.trim().startsWith(
+                                      RegExp(r'^[a-zA-Z][a-zA-Z ]'))) {
+                                    myDialog(
+                                        context: context,
+                                        title: "Warning",
+                                        content: const Text(
+                                            'Name must start with a letter'),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: const Text("Try again"),
                                             onPressed: () =>
                                                 Navigator.pop(context),
                                           )
@@ -94,13 +110,30 @@ class RecipientEmptyView extends StatelessWidget {
                                             "Please enter 11-digit number"),
                                         actions: [
                                           CupertinoDialogAction(
-                                            child: const Text("Try again!"),
+                                            child: const Text("Try again"),
                                             onPressed: () =>
                                                 Navigator.pop(context),
                                           )
                                         ]);
                                     return;
                                   }
+
+                                  if (numberController.text.trim().contains(
+                                    RegExp(r'^[a-zA-Z][a-zA-Z ]'))) {
+                                  myDialog(
+                                      context: context,
+                                      title: "Warning",
+                                      content: const Text(
+                                          'Number must be numeric'),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text("Try again"),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                        )
+                                      ]);
+                                  return;
+                                }
 
                                   //here add recipient
                                   addRecipient(
