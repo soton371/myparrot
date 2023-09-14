@@ -12,7 +12,7 @@ part 'delivery_state.dart';
 
 class DeliveryBloc extends Bloc<DeliveryEvent, DeliveryState> {
   DeliveryBloc() : super(DeliveryInitial()) {
-    on<FetchDeliveryMsg>((event, emit) async{
+    on<FetchDeliveryMsg>((event, emit) async {
       debugPrint("call FetchDeliveryMsg");
       emit(DeliveryFetchLoading());
       try {
@@ -23,10 +23,11 @@ class DeliveryBloc extends Bloc<DeliveryEvent, DeliveryState> {
           final data = pendingMsgModel.data;
           if (data != null && data.isNotEmpty) {
             List<Datum> deliveryMsgs = data;
+            deliveryMsgs.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
             emit(DeliveryFetched(deliveryMsgList: deliveryMsgs));
           } else {
-            emit(
-                const DeliveryFetchFailed(errorMsg: "No Communication History"));
+            emit(const DeliveryFetchFailed(
+                errorMsg: "No Communication History"));
           }
         } else {
           emit(const DeliveryFetchFailed(errorMsg: "Internal server error"));

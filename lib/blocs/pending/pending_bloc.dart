@@ -23,6 +23,7 @@ class PendingBloc extends Bloc<PendingEvent, PendingState> {
           final data = pendingMsgModel.data;
           if (data != null && data.isNotEmpty) {
             List<Datum> pendingMsgs = data;
+            pendingMsgs.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
             emit(PendingFetched(pendingMsgList: pendingMsgs));
           } else {
             emit(

@@ -23,6 +23,7 @@ class FailedBloc extends Bloc<FailedEvent, FailedState> {
           final data = pendingMsgModel.data;
           if (data != null && data.isNotEmpty) {
             List<Datum> failedMsgs = data;
+            failedMsgs.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
             emit(FailedFetched(failedMsgList: failedMsgs));
           } else {
             emit(
