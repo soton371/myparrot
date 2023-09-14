@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/recipient_mod.dart';
+import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_text_field.dart';
 import 'package:myparrot/widgets/recipient_tile.dart';
 
 class RecipientListView extends StatefulWidget {
-  RecipientListView({super.key, required this.recipients});
-  List<RecipientModel> recipients;
+  const RecipientListView({super.key, required this.recipients});
+  final List<RecipientModel> recipients;
 
   @override
   State<RecipientListView> createState() => _RecipientListViewState();
@@ -19,6 +20,14 @@ class RecipientListView extends StatefulWidget {
 class _RecipientListViewState extends State<RecipientListView> {
   TextEditingController nameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
+
+  List<RecipientModel> recipientList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    recipientList = widget.recipients;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,13 +126,14 @@ class _RecipientListViewState extends State<RecipientListView> {
                                   return;
                                 }
 
-                                if (numberController.text.trim().contains(
-                                    RegExp(r'^[a-zA-Z][a-zA-Z ]'))) {
+                                if (numberController.text
+                                    .trim()
+                                    .contains(RegExp(r'^[a-zA-Z][a-zA-Z ]'))) {
                                   myDialog(
                                       context: context,
                                       title: "Warning",
-                                      content: const Text(
-                                          'Number must be numeric'),
+                                      content:
+                                          const Text('Number must be numeric'),
                                       actions: [
                                         CupertinoDialogAction(
                                           child: const Text("Try again"),
@@ -136,7 +146,7 @@ class _RecipientListViewState extends State<RecipientListView> {
 
                                 //here double number check
                                 bool t = false;
-                                for (var element in widget.recipients) {
+                                for (var element in recipientList) {
                                   if (element.number ==
                                       numberController.text.trim()) {
                                     t = true;
@@ -166,7 +176,7 @@ class _RecipientListViewState extends State<RecipientListView> {
                                         number: numberController.text.trim())
                                     .then((value1) {
                                   getRecipients().then((value) {
-                                    widget.recipients = value;
+                                    recipientList = value;
                                     Navigator.pop(context);
                                     setState(() {});
                                   });
@@ -179,13 +189,22 @@ class _RecipientListViewState extends State<RecipientListView> {
               icon: const Icon(
                 CupertinoIcons.person_add,
                 color: MyColors.seed,
-              ))
+              )),
+
+          //for summary screen route
+          IconButton(
+              onPressed: () => Navigator.push(context,
+                  CupertinoPageRoute(builder: (_) => const SummaryScreen())),
+              icon: const Icon(
+                CupertinoIcons.list_bullet,
+                color: MyColors.seed,
+              )),
         ],
       ),
       body: ListView.builder(
-          itemCount: widget.recipients.length,
+          itemCount: recipientList.length,
           itemBuilder: (context, index) {
-            final data = widget.recipients[index];
+            final data = recipientList[index];
             return Slidable(
                 endActionPane: ActionPane(
                   motion: const DrawerMotion(),
@@ -283,7 +302,7 @@ class _RecipientListViewState extends State<RecipientListView> {
                                             .then((value1) {
                                           getRecipients().then((value) {
                                             setState(() {
-                                              widget.recipients = value;
+                                              recipientList = value;
                                             });
                                             Navigator.pop(context);
                                           });
@@ -300,11 +319,10 @@ class _RecipientListViewState extends State<RecipientListView> {
                     ),
                     SlidableAction(
                       onPressed: (_) {
-                        deleteRecipient(widget.recipients[index])
-                            .then((value1) {
+                        deleteRecipient(recipientList[index]).then((value1) {
                           getRecipients().then((value) {
                             setState(() {
-                              widget.recipients = value;
+                              recipientList = value;
                             });
                           });
                         });
