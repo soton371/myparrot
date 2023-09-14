@@ -109,6 +109,7 @@ class _MessageScreenState extends State<MessageScreen> {
               CupertinoTextField(
                 controller: msgController,
                 maxLines: 4,
+                placeholder: "Type message here",
                 onChanged: (v) {
                   setState(() {
                     msg = v;

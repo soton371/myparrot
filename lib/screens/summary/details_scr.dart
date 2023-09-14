@@ -5,14 +5,15 @@ import 'package:myparrot/models/pending_msg_mod.dart';
 import 'package:myparrot/utilities/format_date.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key, required this.myMessage});
+  const DetailsScreen({super.key, required this.myMessage, this.isPending = false});
   final Datum myMessage;
+  final bool isPending;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
+        actions:isPending ? [
           IconButton(
               onPressed: () {},
               icon: const Icon(
@@ -25,7 +26,7 @@ class DetailsScreen extends StatelessWidget {
                 CupertinoIcons.trash,
                 color: MyColors.seed,
               )),
-        ],
+        ]:null,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -80,8 +81,7 @@ class DetailsScreen extends StatelessWidget {
                   Text(
                     formatDate(myMessage.scheduledAt.toString()),
                     textAlign: TextAlign.right,
-                    style: const TextStyle(
-                        fontSize: 10),
+                    style: const TextStyle(fontSize: 10),
                   ),
                 ],
               ),

@@ -12,7 +12,7 @@ class PendingListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push(context, CupertinoPageRoute(builder: (_)=> DetailsScreen(myMessage: pendingMsg))),
+      onTap: () => Navigator.push(context, CupertinoPageRoute(builder: (_)=> DetailsScreen(myMessage: pendingMsg,isPending: true,))),
       child: Card(
         shadowColor: Colors.transparent,
         color: Colors.transparent,
