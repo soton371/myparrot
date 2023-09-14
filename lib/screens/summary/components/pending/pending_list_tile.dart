@@ -25,13 +25,13 @@ class PendingListTile extends StatelessWidget {
               //for icon
               ClipOval(
                 child: Container(
-                  height: 40,
-                  width: 40,
+                  height: 45,
+                  width: 45,
                   color: MyColors.myRandomColor(),
                   alignment: Alignment.center,
                   child: Text(
                     pendingMsg.name.toString().substring(0, 1),
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                    style: const TextStyle(fontSize: 21, color: Colors.white),
                   ),
                 ),
               ),
@@ -48,14 +48,14 @@ class PendingListTile extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
+                          fontWeight: FontWeight.w500, fontSize: 17),
                     ),
                     Text(
                       pendingMsg.phones.toString(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 13),
+                          fontWeight: FontWeight.w500, fontSize: 12),
                     ),
                     Text(
                       pendingMsg.message.toString(),
@@ -69,7 +69,7 @@ class PendingListTile extends StatelessWidget {
               Text(
                 formatDate(pendingMsg.scheduledAt.toString()),
                 textAlign: TextAlign.right,
-                style: const TextStyle(fontSize: 9,fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 9,fontWeight: FontWeight.w500),
               ),
             ],
           ),

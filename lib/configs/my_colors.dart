@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 Random myRandom = Random();
 class MyColors {
   static const seed = Colors.deepPurple;
-  static const disable = Colors.grey;
+  static const disable = Colors.blueGrey;
   static const dismiss = Colors.red;
 
   

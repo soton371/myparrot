@@ -33,7 +33,7 @@ class _RecipientListViewState extends State<RecipientListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recipient"),
+        title: const Text("Recipients"),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -73,7 +73,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                               child: const Text("Cancel"),
                             ),
                             CupertinoDialogAction(
-                              textStyle: const TextStyle(fontWeight: FontWeight.w500),
+                              textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                               child: const Text("Save"),
                               onPressed: () {
                                 //all validation here
@@ -86,8 +87,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                                           "Please enter recipient full name"),
                                       actions: [
                                         CupertinoDialogAction(
-                                          textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w500),
                                           child: const Text("Try again!"),
                                           onPressed: () =>
                                               Navigator.pop(context),
@@ -105,8 +106,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                                           'Name must start with a letter'),
                                       actions: [
                                         CupertinoDialogAction(
-                                          textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w500),
                                           child: const Text("Try again"),
                                           onPressed: () =>
                                               Navigator.pop(context),
@@ -123,8 +124,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                                           "Please enter 11-digit number"),
                                       actions: [
                                         CupertinoDialogAction(
-                                          textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w500),
                                           child: const Text("Try again!"),
                                           onPressed: () =>
                                               Navigator.pop(context),
@@ -143,8 +144,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                                           const Text('Number must be numeric'),
                                       actions: [
                                         CupertinoDialogAction(
-                                          textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w500),
                                           child: const Text("Try again"),
                                           onPressed: () =>
                                               Navigator.pop(context),
@@ -171,8 +172,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                                           "Please ignore duplicate number"),
                                       actions: [
                                         CupertinoDialogAction(
-                                          textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w500),
                                           child: const Text("Try again!"),
                                           onPressed: () =>
                                               Navigator.pop(context),
@@ -260,7 +261,8 @@ class _RecipientListViewState extends State<RecipientListView> {
                                       child: const Text("Cancel"),
                                     ),
                                     CupertinoDialogAction(
-                                      textStyle: const TextStyle(fontWeight: FontWeight.w500),
+                                      textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w500),
                                       child: const Text("Update"),
                                       onPressed: () {
                                         //all validation here
@@ -276,8 +278,9 @@ class _RecipientListViewState extends State<RecipientListView> {
                                                   "Please enter recipient full name"),
                                               actions: [
                                                 CupertinoDialogAction(
-                                                  textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                                  textStyle: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                   child:
                                                       const Text("Try again!"),
                                                   onPressed: () =>
@@ -298,8 +301,9 @@ class _RecipientListViewState extends State<RecipientListView> {
                                                   "Please enter 11-digit number"),
                                               actions: [
                                                 CupertinoDialogAction(
-                                                  textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                                                  textStyle: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                   child:
                                                       const Text("Try again!"),
                                                   onPressed: () =>

@@ -25,13 +25,13 @@ class DeliveryListTile extends StatelessWidget {
               //for icon
               ClipOval(
                 child: Container(
-                  height: 40,
-                  width: 40,
+                  height: 45,
+                  width: 45,
                   color: MyColors.myRandomColor(),
                   alignment: Alignment.center,
                   child: Text(
                     deliveryMsg.name.toString().substring(0, 1),
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                    style: const TextStyle(fontSize: 21, color: Colors.white),
                   ),
                 ),
               ),
@@ -48,14 +48,14 @@ class DeliveryListTile extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
+                          fontWeight: FontWeight.w500, fontSize: 17),
                     ),
                     Text(
                       deliveryMsg.phones.toString(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 13),
+                          fontWeight: FontWeight.w500, fontSize: 12),
                     ),
                     Text(
                       deliveryMsg.message.toString(),
@@ -69,7 +69,7 @@ class DeliveryListTile extends StatelessWidget {
               Text(
                 formatDate(deliveryMsg.scheduledAt.toString()),
                 textAlign: TextAlign.right,
-                style: const TextStyle(fontSize: 9,fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 9,fontWeight: FontWeight.w500),
               ),
             ],
           ),
