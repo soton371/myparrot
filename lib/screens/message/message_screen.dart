@@ -49,8 +49,9 @@ class _MessageScreenState extends State<MessageScreen> {
           if (state is SendMsgLoading) {
             myLoader(context, "Please wait..");
           } else if (state is SendMsgSuccess) {
-            Navigator.pushReplacement(
-                context, CupertinoPageRoute(builder: (_) => const SummaryScreen()));
+            Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                CupertinoPageRoute(builder: (_) => const SummaryScreen()));
           } else if (state is SendMsgFailed) {
             Navigator.pop(context);
             myDialog(

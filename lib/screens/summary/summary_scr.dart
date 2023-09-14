@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myparrot/screens/summary/components/pending_view.dart';
+import 'package:myparrot/screens/summary/components/pending/pending_view.dart';
 
 class SummaryScreen extends StatefulWidget {
   const SummaryScreen({super.key});

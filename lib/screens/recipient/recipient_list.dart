@@ -7,7 +7,7 @@ import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_text_field.dart';
-import 'package:myparrot/widgets/recipient_tile.dart';
+import 'package:myparrot/screens/recipient/recipient_tile.dart';
 
 class RecipientListView extends StatefulWidget {
   const RecipientListView({super.key, required this.recipients});
@@ -337,9 +337,6 @@ class _RecipientListViewState extends State<RecipientListView> {
                 child: RecipientTile(
                   recipient: data,
                 ));
-            // RecipientTile(
-            //   recipient: data,
-            // );
           }),
     );
   }
