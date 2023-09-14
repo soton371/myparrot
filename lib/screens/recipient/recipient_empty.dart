@@ -65,6 +65,7 @@ class RecipientEmptyView extends StatelessWidget {
                                 child: const Text("Cancel"),
                               ),
                               CupertinoDialogAction(
+                                textStyle: const TextStyle(fontWeight: FontWeight.w500),
                                 child: const Text("Save"),
                                 onPressed: () {
                                   //all validation here
@@ -77,6 +78,8 @@ class RecipientEmptyView extends StatelessWidget {
                                             "Please enter recipient full name"),
                                         actions: [
                                           CupertinoDialogAction(
+                                            textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                                             child: const Text("Try again"),
                                             onPressed: () =>
                                                 Navigator.pop(context),
@@ -93,6 +96,8 @@ class RecipientEmptyView extends StatelessWidget {
                                             'Name must start with a letter'),
                                         actions: [
                                           CupertinoDialogAction(
+                                            textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                                             child: const Text("Try again"),
                                             onPressed: () =>
                                                 Navigator.pop(context),
@@ -110,6 +115,8 @@ class RecipientEmptyView extends StatelessWidget {
                                             "Please enter 11-digit number"),
                                         actions: [
                                           CupertinoDialogAction(
+                                            textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                                             child: const Text("Try again"),
                                             onPressed: () =>
                                                 Navigator.pop(context),
@@ -127,6 +134,8 @@ class RecipientEmptyView extends StatelessWidget {
                                           'Number must be numeric'),
                                       actions: [
                                         CupertinoDialogAction(
+                                          textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                                           child: const Text("Try again"),
                                           onPressed: () =>
                                               Navigator.pop(context),

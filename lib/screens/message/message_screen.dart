@@ -60,8 +60,10 @@ class _MessageScreenState extends State<MessageScreen> {
                 content: Text(state.errorMsg),
                 actions: [
                   CupertinoDialogAction(
-                    child: const Text("Ok"),
+                    textStyle:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                     onPressed: () => Navigator.pop(context),
+                    child: const Text("Ok"),
                   )
                 ]);
           }
