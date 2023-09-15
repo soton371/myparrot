@@ -91,6 +91,9 @@ class DatabaseHelper {
   Future<String> fetchSerialNumber() async {
     Database db = await instance.database;
     final value = await db.query(deviceInfoTable, where: '$deviceNo = 1');
+    if (value.isEmpty) {
+      return 'null';
+    }
     return value[0][serialNumber].toString();
   }
 }

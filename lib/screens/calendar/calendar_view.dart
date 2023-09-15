@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
+import 'package:myparrot/blocs/pending/pending_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/calendar_mod.dart';
+import 'package:myparrot/models/pending_msg_mod.dart';
+import 'package:myparrot/screens/summary/components/failed/failed_list_tile.dart';
+import 'package:myparrot/screens/summary/components/pending/pending_list_tile.dart';
+import 'package:myparrot/utilities/filter_pending_msg.dart';
 import 'package:myparrot/utilities/my_day.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -22,11 +29,17 @@ class _CalendarViewState extends State<CalendarView> {
 
   List<Counter> calendarCountList = [];
   Counter? msgCounter;
+  List<Datum> pendingMsgList = [];
+
   @override
   void initState() {
     super.initState();
     calendarCountList = widget.calendarCounterList;
     _selectedDay = _focusedDay;
+    final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
+    context
+        .read<PendingBloc>()
+        .add(FetchPendingMsg(deviceId: identifierBloc.identifier));
   }
 
   @override
@@ -125,6 +138,10 @@ class _CalendarViewState extends State<CalendarView> {
             if (!isSameDay(_selectedDay, selectedDay)) {
               setState(() {
                 var dt = DateFormat('dd-MM-yyyy').format(selectedDay);
+                final pendingBloc = BlocProvider.of<PendingBloc>(context);
+                debugPrint("pendingBloc.pendingMsgList: ${pendingBloc.pendingMsgList.length}");
+                pendingMsgList =
+                    filterPendingMsg(dt, pendingBloc.pendingMsgList);
                 var selectedDayMsgCount1 =
                     calendarCountList.where((element) => element.date == dt);
                 if (selectedDayMsgCount1.isNotEmpty) {
@@ -149,8 +166,13 @@ class _CalendarViewState extends State<CalendarView> {
             return isFound;
           },
         ),
-        Text(
-            " calendar data : ${msgCounter!.date} :: ${msgCounter!.pendingCount}"),
+        Expanded(
+            child: ListView.builder(
+                itemCount: pendingMsgList.length,
+                itemBuilder: (context, index) {
+                  var data = pendingMsgList[index];
+                  return PendingListTile(pendingMsg: data);
+                })),
       ],
     );
   }

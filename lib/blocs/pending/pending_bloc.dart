@@ -23,7 +23,7 @@ class PendingBloc extends Bloc<PendingEvent, PendingState> {
           final pendingMsgModel = pendingMsgModelFromJson(response.body);
           final data = pendingMsgModel.data;
           if (data != null && data.isNotEmpty) {
-            pendingMsgList = data;  //for calendar query list view
+            pendingMsgList = data; //for calendar query list view
             List<Datum> pendingMsgs = data;
             pendingMsgs.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
             emit(PendingFetched(pendingMsgList: pendingMsgs));
