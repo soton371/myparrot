@@ -18,7 +18,7 @@ class PendingListTile extends StatelessWidget {
         color: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

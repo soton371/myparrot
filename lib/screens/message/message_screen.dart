@@ -33,11 +33,6 @@ class _MessageScreenState extends State<MessageScreen> {
   String msg = '';
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     return Scaffold(
@@ -60,8 +55,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 content: Text(state.errorMsg),
                 actions: [
                   CupertinoDialogAction(
-                    textStyle:
-                                  const TextStyle(fontWeight: FontWeight.w500),
+                    textStyle: const TextStyle(fontWeight: FontWeight.w500),
                     onPressed: () => Navigator.pop(context),
                     child: const Text("Ok"),
                   )
@@ -143,9 +137,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       label: const Text(
                         "Slide to send message",
                         style: TextStyle(
-                            color: Color(0xff4a4a4a),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17),
+                            fontWeight: FontWeight.w500, fontSize: 17),
                       ),
                       icon: const Icon(CupertinoIcons.right_chevron),
                       height: 55,

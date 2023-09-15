@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myparrot/blocs/delete_msg/delete_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/pending_msg_mod.dart';
+import 'package:myparrot/screens/edit/edit_scr.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/utilities/format_date.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
@@ -22,7 +23,7 @@ class DetailsScreen extends StatelessWidget {
         actions: isPending
             ? [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.pushReplacement(context, CupertinoPageRoute(builder: (_)=> EditScreen(myMsg: myMessage))),
                     icon: const Icon(
                       CupertinoIcons.pen,
                       color: MyColors.seed,
@@ -144,6 +145,7 @@ class DetailsScreen extends StatelessWidget {
                 ),
                 Text(
                   myMessage.message.toString(),
+                  textAlign: TextAlign.justify,
                 ),
                 const SizedBox(
                   height: 15,

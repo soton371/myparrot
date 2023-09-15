@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myparrot/blocs/delete_msg/delete_msg_bloc.dart';
 import 'package:myparrot/blocs/delivery/delivery_bloc.dart';
+import 'package:myparrot/blocs/edit_msg/edit_msg_bloc.dart';
 import 'package:myparrot/blocs/failed/failed_bloc.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/blocs/pending/pending_bloc.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<DeleteMsgBloc>(
           create: (BuildContext context) => DeleteMsgBloc(),
+        ),
+        BlocProvider<EditMsgBloc>(
+          create: (BuildContext context) => EditMsgBloc(),
         ),
       ],
       child: MaterialApp(
