@@ -11,6 +11,7 @@ part 'pending_event.dart';
 part 'pending_state.dart';
 
 class PendingBloc extends Bloc<PendingEvent, PendingState> {
+  List<Datum> pendingMsgList = []; //for calendar query list view
   PendingBloc() : super(PendingInitial()) {
     on<FetchPendingMsg>((event, emit) async {
       debugPrint("call FetchPendingMsg");
@@ -22,6 +23,7 @@ class PendingBloc extends Bloc<PendingEvent, PendingState> {
           final pendingMsgModel = pendingMsgModelFromJson(response.body);
           final data = pendingMsgModel.data;
           if (data != null && data.isNotEmpty) {
+            pendingMsgList = data;  //for calendar query list view
             List<Datum> pendingMsgs = data;
             pendingMsgs.sort((a, b) => b.updatedAt!.compareTo(a.updatedAt!));
             emit(PendingFetched(pendingMsgList: pendingMsgs));

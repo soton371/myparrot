@@ -6,6 +6,7 @@ class MyColors {
   static const seed = Colors.deepPurple;
   static const disable = Colors.blueGrey;
   static const dismiss = Colors.red;
+  static const amber = Colors.amber;
 
   
   static Color myRandomColor() {
