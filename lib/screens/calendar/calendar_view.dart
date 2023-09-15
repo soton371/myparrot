@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
@@ -6,7 +7,6 @@ import 'package:myparrot/blocs/pending/pending_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/calendar_mod.dart';
 import 'package:myparrot/models/pending_msg_mod.dart';
-import 'package:myparrot/screens/summary/components/failed/failed_list_tile.dart';
 import 'package:myparrot/screens/summary/components/pending/pending_list_tile.dart';
 import 'package:myparrot/utilities/filter_pending_msg.dart';
 import 'package:myparrot/utilities/my_day.dart';
@@ -26,6 +26,7 @@ class _CalendarViewState extends State<CalendarView> {
   DateTime kToday = DateTime.now();
   DateTime kLastDay = DateTime.now().add(const Duration(days: 60));
   DateTime? _selectedDay;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
 
   List<Counter> calendarCountList = [];
   Counter? msgCounter;
@@ -40,6 +41,21 @@ class _CalendarViewState extends State<CalendarView> {
     context
         .read<PendingBloc>()
         .add(FetchPendingMsg(deviceId: identifierBloc.identifier));
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
   }
 
   @override
@@ -47,6 +63,7 @@ class _CalendarViewState extends State<CalendarView> {
     return Column(
       children: [
         TableCalendar(
+          calendarFormat: _calendarFormat,
           focusedDay: _focusedDay,
           firstDay: kFirstDay,
           lastDay: kLastDay,
@@ -139,7 +156,8 @@ class _CalendarViewState extends State<CalendarView> {
               setState(() {
                 var dt = DateFormat('dd-MM-yyyy').format(selectedDay);
                 final pendingBloc = BlocProvider.of<PendingBloc>(context);
-                debugPrint("pendingBloc.pendingMsgList: ${pendingBloc.pendingMsgList.length}");
+                debugPrint(
+                    "pendingBloc.pendingMsgList: ${pendingBloc.pendingMsgList.length}");
                 pendingMsgList =
                     filterPendingMsg(dt, pendingBloc.pendingMsgList);
                 var selectedDayMsgCount1 =
