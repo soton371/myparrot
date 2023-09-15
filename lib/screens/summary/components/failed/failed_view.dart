@@ -29,9 +29,9 @@ class FailedView extends StatelessWidget {
             children: [
               Image.asset("assets/images/miyaw.png",
                   height: MySizes.emptyIcon, width: MySizes.emptyIcon),
-              const Text("\nNo Communication History",
+              Text("\n${state.errorMsg}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: MyColors.disable)),
+                  style: const TextStyle(color: MyColors.disable)),
             ],
           ),
         );

@@ -29,9 +29,9 @@ class PendingView extends StatelessWidget {
             children: [
               Image.asset("assets/images/parachute.png",
                   height: MySizes.emptyIcon, width: MySizes.emptyIcon),
-              const Text("\nNo Communication History",
+              Text("\n${state.errorMsg}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: MyColors.disable)),
+                  style: const TextStyle(color: MyColors.disable)),
             ],
           ),
         );
