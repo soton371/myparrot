@@ -7,6 +7,7 @@ class MyColors {
   static const disable = Colors.blueGrey;
   static const dismiss = Colors.red;
   static const amber = Colors.amber;
+  static const inputBg = Color.fromARGB(255, 245, 241, 253);
 
   
   static Color myRandomColor() {

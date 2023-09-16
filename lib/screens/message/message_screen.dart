@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,8 @@ import 'package:myparrot/models/message_mod.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_loader.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen(
@@ -30,7 +33,15 @@ class _MessageScreenState extends State<MessageScreen> {
       DateFormat.jm().format(DateTime.now().add(const Duration(minutes: 2)));
 
   TextEditingController msgController = TextEditingController();
-  String msg = '';
+  final SpeechToText _speechToText = SpeechToText();
+  bool listeningIs = false;
+  String _lastWords = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +75,8 @@ class _MessageScreenState extends State<MessageScreen> {
         },
         child: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //add date time picker
               Row(
@@ -102,22 +113,50 @@ class _MessageScreenState extends State<MessageScreen> {
               const SizedBox(
                 height: 8,
               ),
-              CupertinoTextField(
-                controller: msgController,
-                maxLines: 4,
-                placeholder: "Type message here",
-                onChanged: (v) {
-                  setState(() {
-                    msg = v;
-                  });
-                },
+
+              Container(
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: MyColors.inputBg,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: TextField(
+                        maxLines: 4,
+                        decoration: const InputDecoration(
+                            hintText: "Type message here",
+                            border: InputBorder.none),
+                        controller: msgController,
+                      ),
+                    ),
+                    //for voice to text
+                    AvatarGlow(
+                      glowColor: MyColors.seed,
+                      endRadius: 25.0,
+                      duration: const Duration(milliseconds: 2000),
+                      repeat: true,
+                      showTwoGlows: true,
+                      animate: listeningIs,
+                      repeatPauseDuration: const Duration(milliseconds: 100),
+                      child: CupertinoButton(
+                        onPressed:
+                            listeningIs ? _stopListening : _startListening,
+                        child: const Icon(CupertinoIcons.mic),
+                      ),
+                    )
+                  ],
+                ),
               ),
               //end msg
               const SizedBox(
                 height: 20,
               ),
               //add for button
-              msg.trim().isEmpty
+              msgController.text.trim().isEmpty
                   ? const SizedBox()
                   : SliderButton(
                       baseColor: MyColors.seed,
@@ -128,7 +167,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         debugPrint("scheduledAt: $scheduledAt");
                         context.read<SendMsgBloc>().add(DoSendMsg(
                             deviceId: identifierBloc.identifier,
-                            message: msgController.text,
+                            message: msgController.text.trim(),
                             name: widget.name ?? '',
                             phones: widget.number ?? '',
                             scheduledAt: scheduledAt));
@@ -206,5 +245,32 @@ class _MessageScreenState extends State<MessageScreen> {
         ),
       ),
     );
+  }
+  // all voice method
+
+  void _initSpeech() async {
+    await _speechToText.initialize();
+    setState(() {
+      
+    });
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    listeningIs = true;
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    listeningIs = false;
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.recognizedWords;
+      msgController = TextEditingController(text: _lastWords);
+    });
   }
 }

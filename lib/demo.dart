@@ -1,7 +1,6 @@
 // import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:myparrot/db/db_helper.dart';
-// import 'package:unique_identifier/unique_identifier.dart';
+// import 'package:speech_to_text/speech_recognition_result.dart';
+// import 'package:speech_to_text/speech_to_text.dart';
 
 // class DemoScreen extends StatefulWidget {
 //   const DemoScreen({super.key});
@@ -11,49 +10,80 @@
 // }
 
 // class _DemoScreenState extends State<DemoScreen> {
-//   String _identifier = 'Unknown';
+//   final SpeechToText _speechToText = SpeechToText();
+//   bool _speechEnabled = false;
+//   String _lastWords = '';
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     initUniqueIdentifierState();
+//     _initSpeech();
 //   }
 
-//   Future<void> initUniqueIdentifierState() async {
-//     String identifier;
-//     try {
-//       identifier = (await UniqueIdentifier.serial)!;
-//       debugPrint("identifier: $identifier");
-//       await DatabaseHelper.instance.insertSerialNumber(identifier);
-//     } on PlatformException {
-//       identifier = 'Failed to get Unique Identifier';
-//     }
+//   void _initSpeech() async {
+//     _speechEnabled = await _speechToText.initialize();
+//     setState(() {});
+//   }
 
-//     if (!mounted) return;
+//   void _startListening() async {
+//     await _speechToText.listen(onResult: _onSpeechResult);
+//     setState(() {});
+//   }
 
+//   void _stopListening() async {
+//     await _speechToText.stop();
+//     setState(() {});
+//   }
+
+//   void _onSpeechResult(SpeechRecognitionResult result) {
 //     setState(() {
-//       _identifier = identifier;
+//       _lastWords = result.recognizedWords;
 //     });
 //   }
-
+  
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: const Text('Plugin example app'),
+//         title: const Text('Speech Demo'),
 //       ),
 //       body: Center(
 //         child: Column(
-//           children: [
-//             Text('Running on device with id: $_identifier\n'),
-//             ElevatedButton(
-//                 onPressed: () async {
-//                   final ser = await DatabaseHelper.instance.fetchSerialNumber();
-//                   debugPrint("ser: $ser");
-//                 },
-//                 child: const Text("Get Serial Number"))
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Container(
+//               padding: const EdgeInsets.all(16),
+//               child: const Text(
+//                 'Recognized words:',
+//                 style: TextStyle(fontSize: 20.0),
+//               ),
+//             ),
+//             Expanded(
+//               child: Container(
+//                 padding: const EdgeInsets.all(16),
+//                 child: Text(
+//                   // If listening is active show the recognized words
+//                   _speechToText.isListening
+//                       ? '$_lastWords'
+//                       // If listening isn't active but could be tell the user
+//                       // how to start it, otherwise indicate that speech
+//                       // recognition is not yet ready or not supported on
+//                       // the target device
+//                       : _speechEnabled
+//                           ? 'Tap the microphone to start listening...'
+//                           : 'Speech not available',
+//                 ),
+//               ),
+//             ),
 //           ],
 //         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed:
+//             // If not yet listening for speech start, otherwise stop
+//             _speechToText.isNotListening ? _startListening : _stopListening,
+//         tooltip: 'Listen',
+//         child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
 //       ),
 //     );
 //   }
