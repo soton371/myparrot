@@ -9,7 +9,6 @@ import 'package:myparrot/models/calendar_mod.dart';
 import 'package:myparrot/models/pending_msg_mod.dart';
 import 'package:myparrot/screens/summary/components/pending/pending_list_tile.dart';
 import 'package:myparrot/utilities/filter_pending_msg.dart';
-import 'package:myparrot/utilities/my_day.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarView extends StatefulWidget {
@@ -22,11 +21,11 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
   DateTime _focusedDay = DateTime.now();
-  DateTime kFirstDay = DateTime.now();
+  DateTime kFirstDay = DateTime.now().subtract(const Duration(days: 30));
   DateTime kToday = DateTime.now();
   DateTime kLastDay = DateTime.now().add(const Duration(days: 60));
   DateTime? _selectedDay;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
 
   List<Counter> calendarCountList = [];
   Counter? msgCounter;
@@ -60,6 +59,7 @@ class _CalendarViewState extends State<CalendarView> {
 
   @override
   Widget build(BuildContext context) {
+    final pendingBloc = BlocProvider.of<PendingBloc>(context);
     return Column(
       children: [
         TableCalendar(
@@ -70,14 +70,17 @@ class _CalendarViewState extends State<CalendarView> {
           startingDayOfWeek: StartingDayOfWeek.saturday,
           calendarStyle: const CalendarStyle(
             outsideDaysVisible: false,
+            selectedDecoration:
+                BoxDecoration(color: MyColors.seed, shape: BoxShape.circle),
           ),
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, date, day) {
-              String generateDate =
-                  "${myDay(date)}-${myMonth(date)}-${day.year}";
+              String generateDate = DateFormat('dd-MM-yyyy').format(date);
+              
               var pendingList = calendarCountList
                   .where((element) => element.date == generateDate);
+
               for (var sss in pendingList) {
                 return Container(
                   height: 50,
@@ -96,8 +99,7 @@ class _CalendarViewState extends State<CalendarView> {
               return null;
             },
             defaultBuilder: (context, date, day) {
-              String generateDate =
-                  "${myDay(date)}-${myMonth(date)}-${day.year}";
+              String generateDate = DateFormat('dd-MM-yyyy').format(date);
               var pending = calendarCountList
                   .where((element) => element.date == generateDate);
 
@@ -119,8 +121,7 @@ class _CalendarViewState extends State<CalendarView> {
               return null;
             },
             markerBuilder: (context, day, event) {
-              String generateDate = "${myDay(day)}-${myMonth(day)}-${day.year}";
-              debugPrint("generateDate defaultBuilder: $generateDate");
+              String generateDate = DateFormat('dd-MM-yyyy').format(day);
               var pending = calendarCountList
                   .where((element) => element.date == generateDate);
               for (var sss in pending) {
@@ -155,9 +156,6 @@ class _CalendarViewState extends State<CalendarView> {
             if (!isSameDay(_selectedDay, selectedDay)) {
               setState(() {
                 var dt = DateFormat('dd-MM-yyyy').format(selectedDay);
-                final pendingBloc = BlocProvider.of<PendingBloc>(context);
-                debugPrint(
-                    "pendingBloc.pendingMsgList: ${pendingBloc.pendingMsgList.length}");
                 pendingMsgList =
                     filterPendingMsg(dt, pendingBloc.pendingMsgList);
                 var selectedDayMsgCount1 =
@@ -169,19 +167,6 @@ class _CalendarViewState extends State<CalendarView> {
                 _focusedDay = focusedDay;
               });
             }
-          },
-          enabledDayPredicate: (day) {
-            String generateDate = "${myDay(day)}-${myMonth(day)}-${day.year}";
-            var pending = calendarCountList
-                .where((element) => element.date == generateDate);
-            bool isFound = false;
-            for (var sss in pending) {
-              if (sss.date == generateDate) {
-                isFound = true;
-                break;
-              }
-            }
-            return isFound;
           },
         ),
         Expanded(
