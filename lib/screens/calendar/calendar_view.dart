@@ -80,7 +80,7 @@ class _CalendarViewState extends State<CalendarView> {
               
               var pendingList = calendarCountList
                   .where((element) => element.date == generateDate);
-
+        
               for (var sss in pendingList) {
                 return Container(
                   height: 50,
@@ -102,7 +102,7 @@ class _CalendarViewState extends State<CalendarView> {
               String generateDate = DateFormat('dd-MM-yyyy').format(date);
               var pending = calendarCountList
                   .where((element) => element.date == generateDate);
-
+        
               for (var sss in pending) {
                 return Container(
                   height: 50,
@@ -169,6 +169,7 @@ class _CalendarViewState extends State<CalendarView> {
             }
           },
         ),
+        
         Expanded(
             child: ListView.builder(
                 itemCount: pendingMsgList.length,
