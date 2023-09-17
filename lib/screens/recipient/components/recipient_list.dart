@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:myparrot/blocs/selected_recipient/selected_recipient_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/recipient_mod.dart';
+import 'package:myparrot/screens/recipient/components/selected_appbar.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_text_field.dart';
-import 'package:myparrot/screens/recipient/recipient_tile.dart';
+import 'package:myparrot/screens/recipient/components/recipient_tile.dart';
 
 class RecipientListView extends StatefulWidget {
   const RecipientListView({super.key, required this.recipients});
@@ -32,7 +35,19 @@ class _RecipientListViewState extends State<RecipientListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: BlocBuilder<SelectedRecipientBloc, SelectedRecipientState>(
+            builder: (context, state) {
+              if (state is SelectRecipientValue) {
+                return SelectedAppBar(
+                    selectedCount: state.selectedCount,
+                    selectRecipientList: state.selectRecipientList,);
+              } else if (state is UnselectRecipientItemState) {
+                return SelectedAppBar(
+                    selectedCount: state.selectedCount,selectRecipientList: state.selectRecipientList,);
+              } else {
+                return AppBar(
         title: const Text("Recipients"),
         automaticallyImplyLeading: false,
         actions: [
@@ -212,7 +227,12 @@ class _RecipientListViewState extends State<RecipientListView> {
                 color: MyColors.seed,
               )),
         ],
-      ),
+      );
+              }
+            },
+          ),
+        ),
+      
       body: ListView.builder(
           itemCount: recipientList.length,
           itemBuilder: (context, index) {

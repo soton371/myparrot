@@ -6,6 +6,7 @@ import 'package:myparrot/blocs/edit_msg/edit_msg_bloc.dart';
 import 'package:myparrot/blocs/failed/failed_bloc.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/blocs/pending/pending_bloc.dart';
+import 'package:myparrot/blocs/selected_recipient/selected_recipient_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/screens/recipient/recipient_screen.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CalendarBloc>(
           create: (BuildContext context) => CalendarBloc(),
+        ),
+        BlocProvider<SelectedRecipientBloc>(
+          create: (BuildContext context) => SelectedRecipientBloc(),
         ),
       ],
       child: MaterialApp(

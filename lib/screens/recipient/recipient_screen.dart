@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/models/recipient_mod.dart';
-import 'package:myparrot/screens/recipient/recipient_empty.dart';
-import 'package:myparrot/screens/recipient/recipient_list.dart';
+import 'package:myparrot/screens/recipient/components/recipient_empty.dart';
+import 'package:myparrot/screens/recipient/components/recipient_list.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
 
 class RecipientScreen extends StatefulWidget {

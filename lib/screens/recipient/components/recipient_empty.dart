@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/configs/my_sizes.dart';
-import 'package:myparrot/screens/recipient/recipient_list.dart';
+import 'package:myparrot/screens/recipient/components/recipient_list.dart';
 import 'package:myparrot/utilities/recipient_crud.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_text_field.dart';
