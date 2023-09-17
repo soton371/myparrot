@@ -132,7 +132,7 @@ class _EditScreenState extends State<EditScreen> {
                           maxLines: 4,
                           decoration: InputDecoration(
                               hintText: listeningIs
-                                  ? "listening.."
+                                  ? "Listening.."
                                   : "Type message here",
                               border: InputBorder.none),
                           controller: msgController,

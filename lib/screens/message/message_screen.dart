@@ -128,7 +128,9 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: TextField(
                         maxLines: 4,
                         decoration: InputDecoration(
-                            hintText:listeningIs?"listening.." : "Type message here",
+                            hintText: listeningIs
+                                ? "Listening.."
+                                : "Type message here",
                             border: InputBorder.none),
                         controller: msgController,
                       ),
@@ -250,9 +252,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
   void _initSpeech() async {
     await _speechToText.initialize();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   void _startListening() async {
