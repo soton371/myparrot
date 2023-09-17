@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,8 @@ import 'package:myparrot/models/pending_msg_mod.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_loader.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class EditScreen extends StatefulWidget {
   const EditScreen({super.key, required this.myMsg});
@@ -19,23 +22,29 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  DateTime chosenDateTime = DateTime.now().add(const Duration(minutes: 2));
+  DateTime chosenDateTime = DateTime.now();
   String formattedDate = '';
   String formattedTime = '';
-  String initShowDate = DateFormat.MMMEd().format(DateTime.now());
-  String initTime =
-      DateFormat.jm().format(DateTime.now().add(const Duration(minutes: 2)));
+  DateTime getDateTime = DateTime.now().add(const Duration(minutes: 3));
+  // String initShowDate = DateFormat.MMMEd().format(DateTime.now());
+  // String initTime =
+  //     DateFormat.jm().format(DateTime.now().add(const Duration(minutes: 2)));
 
   TextEditingController msgController = TextEditingController();
+  final SpeechToText _speechToText = SpeechToText();
+  bool listeningIs = false;
+  String _lastWords = '';
 
   @override
   void initState() {
     super.initState();
-    final DateTime dateTime =
+    getDateTime =
         DateFormat('dd-MM-yyyy HH:mm').parse(widget.myMsg.scheduledAt ?? '');
-    initShowDate = DateFormat.MMMEd().format(dateTime);
-    initTime = DateFormat.jm().format(dateTime);
+    chosenDateTime = getDateTime;
+    formattedDate = DateFormat.MMMEd().format(getDateTime);
+    formattedTime = DateFormat.jm().format(getDateTime);
     msgController = TextEditingController(text: widget.myMsg.message);
+    _initSpeech();
   }
 
   @override
@@ -70,8 +79,7 @@ class _EditScreenState extends State<EditScreen> {
         },
         child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
                 //add date time picker
                 Row(
@@ -81,7 +89,7 @@ class _EditScreenState extends State<EditScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          formattedDate.isEmpty ? initShowDate : formattedDate,
+                          formattedDate,
                           style: TextStyle(
                               fontSize: Theme.of(context)
                                   .textTheme
@@ -90,7 +98,7 @@ class _EditScreenState extends State<EditScreen> {
                               fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          formattedTime.isEmpty ? initTime : formattedTime,
+                          formattedTime,
                           style: Theme.of(context).textTheme.titleLarge,
                         )
                       ],
@@ -108,14 +116,51 @@ class _EditScreenState extends State<EditScreen> {
                 const SizedBox(
                   height: 8,
                 ),
-                CupertinoTextField(
-                  controller: msgController,
-                  maxLines: 4,
-                  placeholder: "Type message here",
+
+                Container(
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: MyColors.inputBg,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TextField(
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                              hintText: listeningIs
+                                  ? "listening.."
+                                  : "Type message here",
+                              border: InputBorder.none),
+                          controller: msgController,
+                        ),
+                      ),
+                      //for voice to text
+                      AvatarGlow(
+                        glowColor: MyColors.seed,
+                        endRadius: 25.0,
+                        duration: const Duration(milliseconds: 2000),
+                        repeat: true,
+                        showTwoGlows: true,
+                        animate: listeningIs,
+                        repeatPauseDuration: const Duration(milliseconds: 100),
+                        child: CupertinoButton(
+                          onPressed:
+                              listeningIs ? _stopListening : _startListening,
+                          child: const Icon(CupertinoIcons.mic),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 //end msg
+                SizedBox(
+                  height: 20,
+                ),
 
-                const Spacer(),
                 //add for button
                 SliderButton(
                   baseColor: MyColors.seed,
@@ -187,9 +232,8 @@ class _EditScreenState extends State<EditScreen> {
             SizedBox(
               height: 250,
               child: CupertinoDatePicker(
-                  initialDateTime:
-                      DateTime.now().add(const Duration(minutes: 3)),
-                  minimumDate: DateTime.now().add(const Duration(minutes: 2)),
+                  initialDateTime: getDateTime,
+                  minimumDate: DateTime.now().add(const Duration(minutes: 3)),
                   maximumDate: DateTime.now().add(const Duration(days: 60)),
                   onDateTimeChanged: (val) {
                     setState(() {
@@ -201,5 +245,29 @@ class _EditScreenState extends State<EditScreen> {
         ),
       ),
     );
+  }
+
+  void _initSpeech() async {
+    await _speechToText.initialize();
+    setState(() {});
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    listeningIs = true;
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    listeningIs = false;
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.recognizedWords;
+      msgController = TextEditingController(text: _lastWords);
+    });
   }
 }

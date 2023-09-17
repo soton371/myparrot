@@ -127,8 +127,8 @@ class _MessageScreenState extends State<MessageScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
                         maxLines: 4,
-                        decoration: const InputDecoration(
-                            hintText: "Type message here",
+                        decoration: InputDecoration(
+                            hintText:listeningIs?"listening.." : "Type message here",
                             border: InputBorder.none),
                         controller: msgController,
                       ),
