@@ -26,10 +26,7 @@ class _EditScreenState extends State<EditScreen> {
   String formattedDate = '';
   String formattedTime = '';
   DateTime getDateTime = DateTime.now().add(const Duration(minutes: 3));
-  // String initShowDate = DateFormat.MMMEd().format(DateTime.now());
-  // String initTime =
-  //     DateFormat.jm().format(DateTime.now().add(const Duration(minutes: 2)));
-
+  
   TextEditingController msgController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
   bool listeningIs = false;
@@ -45,6 +42,12 @@ class _EditScreenState extends State<EditScreen> {
     formattedTime = DateFormat.jm().format(getDateTime);
     msgController = TextEditingController(text: widget.myMsg.message);
     _initSpeech();
+  }
+  
+  @override
+  void dispose() {
+    super.dispose();
+    _stopListening();
   }
 
   @override

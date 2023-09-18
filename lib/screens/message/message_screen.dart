@@ -44,6 +44,12 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _stopListening();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     return Scaffold(
