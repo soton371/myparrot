@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
+import 'package:myparrot/configs/my_sizes.dart';
 import 'package:myparrot/models/recipient_mod.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
@@ -65,7 +66,7 @@ class _MessageScreenState extends State<MessageScreen> {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("$names"),
+        title:names.length>1?const Text("Message"): Text("$names"),
       ),
       body: BlocListener<SendMsgBloc, SendMsgState>(
         listener: (context, state) {
@@ -93,8 +94,36 @@ class _MessageScreenState extends State<MessageScreen> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //for name
+              names.length>1?
+              SizedBox(
+                height: 35,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: names.length,
+                  itemBuilder: (_,index)=> Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      color: MyColors.inputBg,
+                      borderRadius: BorderRadius.circular(MySizes.radius)
+                    ),
+                    child: Row(
+                      children: [
+                        Text("${names[index]} "),
+                      
+                        InkWell(
+                          onTap: (){
+                            //name & number delete
+                          }, child: const Icon(CupertinoIcons.multiply_circle_fill,size: 15,color: MyColors.disable,))
+                      ],
+                    ),
+                  )),
+              ):const SizedBox(),
+              //end name
+              const SizedBox(height: 10,),
+
               //add date time picker
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
