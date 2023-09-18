@@ -21,7 +21,7 @@ class SelectedAppBar extends StatelessWidget {
           onPressed: () {
             context.read<SelectedRecipientBloc>().add(CallUnselectRecipient());
           },
-          icon: const Icon(Icons.arrow_back)),
+          icon: const Icon(CupertinoIcons.chevron_back)),
       title: Text("$selectedCount selected"),
       actions: [
         CupertinoButton(

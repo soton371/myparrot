@@ -113,7 +113,7 @@ class _CalendarViewState extends State<CalendarView> {
                       shape: BoxShape.circle,
                       border: Border.all(
                           color: sss.pendingCount == '0'
-                              ? MyColors.seed
+                              ? Colors.transparent
                               : MyColors.amber)),
                   child: Text(date.day.toString()),
                 );

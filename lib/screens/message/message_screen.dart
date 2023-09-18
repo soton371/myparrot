@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forked_slider_button/forked_slider_button.dart';
 import 'package:intl/intl.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
+import 'package:myparrot/blocs/selected_recipient/selected_recipient_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/configs/my_sizes.dart';
@@ -41,6 +42,8 @@ class _MessageScreenState extends State<MessageScreen> {
   List<String> numbers = [];
 
   void findNameNumber() {
+    names = [];
+    numbers = [];
     for (var element in widget.recipients) {
       names.add(element.name);
       numbers.add(element.number);
@@ -66,7 +69,7 @@ class _MessageScreenState extends State<MessageScreen> {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title:names.length>1?const Text("Message"): Text("$names"),
+        title: names.length > 1 ? const Text("Message") : Text(names.toString().replaceAll('[', '').replaceAll(']', '')),
       ),
       body: BlocListener<SendMsgBloc, SendMsgState>(
         listener: (context, state) {
@@ -96,33 +99,48 @@ class _MessageScreenState extends State<MessageScreen> {
           child: ListView(
             children: [
               //for name
-              names.length>1?
-              SizedBox(
-                height: 35,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: names.length,
-                  itemBuilder: (_,index)=> Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: MyColors.inputBg,
-                      borderRadius: BorderRadius.circular(MySizes.radius)
-                    ),
-                    child: Row(
-                      children: [
-                        Text("${names[index]} "),
-                      
-                        InkWell(
-                          onTap: (){
-                            //name & number delete
-                          }, child: const Icon(CupertinoIcons.multiply_circle_fill,size: 15,color: MyColors.disable,))
-                      ],
-                    ),
-                  )),
-              ):const SizedBox(),
+              names.length > 1
+                  ? SizedBox(
+                      height: 35,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: names.length,
+                          itemBuilder: (_, index) => Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                margin: const EdgeInsets.only(right: 10),
+                                decoration: BoxDecoration(
+                                    color: MyColors.inputBg,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Row(
+                                  children: [
+                                    Text("${names[index]} "),
+                                    InkWell(
+                                        onTap: () {
+                                          //name & number delete
+                                          context
+                                              .read<SelectedRecipientBloc>()
+                                              .add(CallUnselectRecipient());
+                                          names.removeAt(index);
+                                          numbers.removeAt(index);
+                                          setState(() {
+                                            
+                                          });
+                                        },
+                                        child: const Icon(
+                                          CupertinoIcons.multiply_circle_fill,
+                                          size: 15,
+                                          color: MyColors.disable,
+                                        ))
+                                  ],
+                                ),
+                              )),
+                    )
+                  : const SizedBox(),
               //end name
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
 
               //add date time picker
               Row(
@@ -216,8 +234,8 @@ class _MessageScreenState extends State<MessageScreen> {
                         context.read<SendMsgBloc>().add(DoSendMsg(
                             deviceId: identifierBloc.identifier,
                             message: msgController.text.trim(),
-                            names: names,
-                            phones: numbers,
+                            name: names.toString().replaceAll('[', '').replaceAll(']', ''),
+                            phone: numbers.toString().replaceAll('[', '').replaceAll(']', ''),
                             scheduledAt: scheduledAt));
                       },
                       dismissible: false,

@@ -18,8 +18,8 @@ class SendMsgBloc extends Bloc<SendMsgEvent, SendMsgState> {
       final payload = {
         "message": event.message,
         "scheduled_at": event.scheduledAt,
-        "phones": event.phones,
-        "name": event.names,
+        "phones": event.phone,
+        "name": event.name,
         "device_id": event.deviceId
       };
       try {

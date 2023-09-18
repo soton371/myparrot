@@ -11,11 +11,11 @@ class DoSendMsg extends SendMsgEvent {
   const DoSendMsg(
       {required this.deviceId,
       required this.message,
-      required this.names,
-      required this.phones,
+      required this.name,
+      required this.phone,
       required this.scheduledAt});
-  final String deviceId, message, scheduledAt;
-  final List<String> names, phones;
+  final String deviceId, message, scheduledAt, name,phone;
+  // final List<String> names, phones;
   @override
-  List<Object> get props => [deviceId, message, scheduledAt, phones, names];
+  List<Object> get props => [deviceId, message, scheduledAt, phone, name];
 }
