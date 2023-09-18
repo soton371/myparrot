@@ -50,7 +50,8 @@ class _RecipientTileState extends State<RecipientTile> {
             context,
             CupertinoPageRoute(
                 builder: (_) => MessageScreen(
-                    name: widget.recipient.name, number: widget.recipient.number))),
+                  recipients: [RecipientModel(name: widget.recipient.name, number: widget.recipient.number)],
+                ))),
         child: Card(
           shadowColor: Colors.transparent,
           color:isSelect

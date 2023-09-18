@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
-import 'package:myparrot/models/message_mod.dart';
+import 'package:myparrot/models/recipient_mod.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
 import 'package:myparrot/widgets/my_loader.dart';
@@ -15,10 +15,9 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class MessageScreen extends StatefulWidget {
-  const MessageScreen(
-      {super.key, required this.name, required this.number, this.pendingMsg});
-  final String? name, number;
-  final MessageModel? pendingMsg;
+  const MessageScreen({super.key, required this.recipients});
+  // final String? name, number;
+  final List<RecipientModel> recipients;
 
   @override
   State<MessageScreen> createState() => _MessageScreenState();
@@ -37,10 +36,22 @@ class _MessageScreenState extends State<MessageScreen> {
   bool listeningIs = false;
   String _lastWords = '';
 
+  List<String> names = [];
+  List<String> numbers = [];
+
+  void findNameNumber() {
+    for (var element in widget.recipients) {
+      names.add(element.name);
+      numbers.add(element.number);
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
     _initSpeech();
+    findNameNumber();
   }
 
   @override
@@ -54,7 +65,7 @@ class _MessageScreenState extends State<MessageScreen> {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.name}"),
+        title: Text("$names"),
       ),
       body: BlocListener<SendMsgBloc, SendMsgState>(
         listener: (context, state) {
@@ -176,8 +187,8 @@ class _MessageScreenState extends State<MessageScreen> {
                         context.read<SendMsgBloc>().add(DoSendMsg(
                             deviceId: identifierBloc.identifier,
                             message: msgController.text.trim(),
-                            name: widget.name ?? '',
-                            phones: widget.number ?? '',
+                            names: names,
+                            phones: numbers,
                             scheduledAt: scheduledAt));
                       },
                       dismissible: false,

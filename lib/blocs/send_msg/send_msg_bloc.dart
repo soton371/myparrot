@@ -19,7 +19,7 @@ class SendMsgBloc extends Bloc<SendMsgEvent, SendMsgState> {
         "message": event.message,
         "scheduled_at": event.scheduledAt,
         "phones": event.phones,
-        "name": event.name,
+        "name": event.names,
         "device_id": event.deviceId
       };
       try {

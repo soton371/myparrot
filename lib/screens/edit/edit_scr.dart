@@ -43,7 +43,7 @@ class _EditScreenState extends State<EditScreen> {
     msgController = TextEditingController(text: widget.myMsg.message);
     _initSpeech();
   }
-  
+
   @override
   void dispose() {
     super.dispose();
@@ -160,7 +160,7 @@ class _EditScreenState extends State<EditScreen> {
                   ),
                 ),
                 //end msg
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
 
