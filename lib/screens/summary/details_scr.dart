@@ -65,6 +65,7 @@ class DetailsScreen extends StatelessWidget {
           } else if (state is DeleteMsgSuccess) {
             Navigator.pop(context);
             Navigator.pop(context);
+            Navigator.pop(context);
             Navigator.pushReplacement(context,
                 CupertinoPageRoute(builder: (_) => const SummaryScreen()));
           } else if (state is DeleteMsgFailed) {

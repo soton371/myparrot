@@ -115,7 +115,14 @@ class _MessageScreenState extends State<MessageScreen> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Row(
                                   children: [
-                                    Text("${names[index]} "),
+                                    Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(names[index]),
+                                          Text(numbers[index],style: const TextStyle(fontSize: 8,color: MyColors.disable),),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 5,),
                                     InkWell(
                                         onTap: () {
                                           //name & number delete

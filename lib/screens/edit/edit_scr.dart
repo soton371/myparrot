@@ -112,14 +112,21 @@ class _EditScreenState extends State<EditScreen> {
                             itemCount: names.length,
                             itemBuilder: (_, index) => Container(
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                      const EdgeInsets.symmetric(horizontal: 8,vertical: 2),
                                   margin: const EdgeInsets.only(right: 10),
                                   decoration: BoxDecoration(
                                       color: MyColors.inputBg,
                                       borderRadius: BorderRadius.circular(8)),
                                   child: Row(
                                     children: [
-                                      Text("${names[index]} "),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(names[index]),
+                                          Text(numbers[index],style: const TextStyle(fontSize: 8,color: MyColors.disable),),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 5,),
                                       InkWell(
                                           onTap: () {
                                             //name & number delete
