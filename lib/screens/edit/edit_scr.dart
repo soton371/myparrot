@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forked_slider_button/forked_slider_button.dart';
 import 'package:intl/intl.dart';
 import 'package:myparrot/blocs/edit_msg/edit_msg_bloc.dart';
+import 'package:myparrot/blocs/selected_recipient/selected_recipient_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/models/pending_msg_mod.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
@@ -26,11 +27,25 @@ class _EditScreenState extends State<EditScreen> {
   String formattedDate = '';
   String formattedTime = '';
   DateTime getDateTime = DateTime.now().add(const Duration(minutes: 3));
-  
+
   TextEditingController msgController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
   bool listeningIs = false;
   String _lastWords = '';
+  List<String> names = [];
+  List<String> numbers = [];
+
+  void generateListNameNumber() {
+    names = [];
+    numbers = [];
+    var name = widget.myMsg.name;
+    var number = widget.myMsg.phones;
+    if (name != null && number != null) {
+      names = name.split(',');
+      numbers = number.split(',');
+    }
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -42,6 +57,7 @@ class _EditScreenState extends State<EditScreen> {
     formattedTime = DateFormat.jm().format(getDateTime);
     msgController = TextEditingController(text: widget.myMsg.message);
     _initSpeech();
+    generateListNameNumber();
   }
 
   @override
@@ -54,7 +70,10 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.myMsg.name ?? ''),
+        title: names.length > 1
+            ? const Text("Message")
+            : Text(names.toString().replaceAll('[', '').replaceAll(']', '')),
+        // title: Text(widget.myMsg.name ?? ''),
       ),
       body: BlocListener<EditMsgBloc, EditMsgState>(
         listener: (context, state) {
@@ -84,6 +103,47 @@ class _EditScreenState extends State<EditScreen> {
             padding: const EdgeInsets.all(15.0),
             child: ListView(
               children: [
+                //for name
+                names.length > 1
+                    ? SizedBox(
+                        height: 35,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: names.length,
+                            itemBuilder: (_, index) => Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  margin: const EdgeInsets.only(right: 10),
+                                  decoration: BoxDecoration(
+                                      color: MyColors.inputBg,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Row(
+                                    children: [
+                                      Text("${names[index]} "),
+                                      InkWell(
+                                          onTap: () {
+                                            //name & number delete
+                                            context
+                                                .read<SelectedRecipientBloc>()
+                                                .add(CallUnselectRecipient());
+                                            names.removeAt(index);
+                                            numbers.removeAt(index);
+                                            setState(() {});
+                                          },
+                                          child: const Icon(
+                                            CupertinoIcons.multiply_circle_fill,
+                                            size: 15,
+                                            color: MyColors.disable,
+                                          ))
+                                    ],
+                                  ),
+                                )),
+                      )
+                    : const SizedBox(),
+                //end name
+                const SizedBox(
+                  height: 10,
+                ),
                 //add date time picker
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,11 +231,20 @@ class _EditScreenState extends State<EditScreen> {
                   action: () {
                     final scheduledAt =
                         DateFormat('dd-MM-yyyy HH:mm').format(chosenDateTime);
+                    context
+                        .read<SelectedRecipientBloc>()
+                        .add(CallUnselectRecipient());
                     context.read<EditMsgBloc>().add(DoEditMsg(
                         msgId: widget.myMsg.id.toString(),
                         message: msgController.text,
-                        name: widget.myMsg.name ?? '',
-                        phones: widget.myMsg.phones ?? '',
+                        name: names
+                            .toString()
+                            .replaceAll('[', '')
+                            .replaceAll(']', ''),
+                        phones: numbers
+                            .toString()
+                            .replaceAll('[', '')
+                            .replaceAll(']', ''),
                         scheduledAt: scheduledAt));
                   },
                   dismissible: false,

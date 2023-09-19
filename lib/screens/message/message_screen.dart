@@ -8,7 +8,6 @@ import 'package:myparrot/blocs/identifier/identifier_bloc.dart';
 import 'package:myparrot/blocs/selected_recipient/selected_recipient_bloc.dart';
 import 'package:myparrot/blocs/send_msg/send_msg_bloc.dart';
 import 'package:myparrot/configs/my_colors.dart';
-import 'package:myparrot/configs/my_sizes.dart';
 import 'package:myparrot/models/recipient_mod.dart';
 import 'package:myparrot/screens/summary/summary_scr.dart';
 import 'package:myparrot/widgets/my_dialog.dart';
@@ -69,7 +68,9 @@ class _MessageScreenState extends State<MessageScreen> {
     final identifierBloc = BlocProvider.of<IdentifierBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: names.length > 1 ? const Text("Message") : Text(names.toString().replaceAll('[', '').replaceAll(']', '')),
+        title: names.length > 1
+            ? const Text("Message")
+            : Text(names.toString().replaceAll('[', '').replaceAll(']', '')),
       ),
       body: BlocListener<SendMsgBloc, SendMsgState>(
         listener: (context, state) {
@@ -123,9 +124,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                               .add(CallUnselectRecipient());
                                           names.removeAt(index);
                                           numbers.removeAt(index);
-                                          setState(() {
-                                            
-                                          });
+                                          setState(() {});
                                         },
                                         child: const Icon(
                                           CupertinoIcons.multiply_circle_fill,
@@ -222,35 +221,41 @@ class _MessageScreenState extends State<MessageScreen> {
                 height: 20,
               ),
               //add for button
-              msgController.text.trim().isEmpty
-                  ? const SizedBox()
-                  : SliderButton(
-                      baseColor: MyColors.seed,
-                      backgroundColor: MyColors.seed.shade50,
-                      action: () {
-                        final scheduledAt = DateFormat('dd-MM-yyyy HH:mm')
-                            .format(chosenDateTime);
-                        debugPrint("scheduledAt: $scheduledAt");
-                        context.read<SendMsgBloc>().add(DoSendMsg(
-                            deviceId: identifierBloc.identifier,
-                            message: msgController.text.trim(),
-                            name: names.toString().replaceAll('[', '').replaceAll(']', ''),
-                            phone: numbers.toString().replaceAll('[', '').replaceAll(']', ''),
-                            scheduledAt: scheduledAt));
-                      },
-                      dismissible: false,
-                      label: const Text(
-                        "Slide to send message",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 17),
-                      ),
-                      icon: const Icon(CupertinoIcons.right_chevron),
-                      height: 55,
-                      buttonSize: 50,
-                      width: double.maxFinite,
-                      alignLabel: Alignment.center,
-                      radius: 10,
-                    ),
+              SliderButton(
+                baseColor: MyColors.seed,
+                backgroundColor: MyColors.seed.shade50,
+                action: () {
+                  final scheduledAt =
+                      DateFormat('dd-MM-yyyy HH:mm').format(chosenDateTime);
+                  debugPrint("scheduledAt: $scheduledAt");
+                  context
+                      .read<SelectedRecipientBloc>()
+                      .add(CallUnselectRecipient());
+                  context.read<SendMsgBloc>().add(DoSendMsg(
+                      deviceId: identifierBloc.identifier,
+                      message: msgController.text.trim(),
+                      name: names
+                          .toString()
+                          .replaceAll('[', '')
+                          .replaceAll(']', ''),
+                      phone: numbers
+                          .toString()
+                          .replaceAll('[', '')
+                          .replaceAll(']', ''),
+                      scheduledAt: scheduledAt));
+                },
+                dismissible: false,
+                label: const Text(
+                  "Slide to send message",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                ),
+                icon: const Icon(CupertinoIcons.right_chevron),
+                height: 55,
+                buttonSize: 50,
+                width: double.maxFinite,
+                alignLabel: Alignment.center,
+                radius: 10,
+              ),
               //end for button
             ],
           ),
