@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:myparrot/configs/my_colors.dart';
 import 'package:myparrot/screens/calendar/caledar_scr.dart';
 import 'package:myparrot/screens/summary/components/delivery/delivery_view.dart';
-import 'package:myparrot/screens/summary/components/failed/failed_view.dart';
 import 'package:myparrot/screens/summary/components/pending/pending_view.dart';
 
 class SummaryScreen extends StatelessWidget {
@@ -12,7 +11,7 @@ class SummaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Summary"),
@@ -27,9 +26,9 @@ class SummaryScreen extends StatelessWidget {
                 Tab(
                   text: "Delivery",
                 ),
-                Tab(
-                  text: "Failed",
-                )
+                // Tab(
+                //   text: "Failed",
+                // )
               ],
             ),
           ),
@@ -37,7 +36,7 @@ class SummaryScreen extends StatelessWidget {
             children: [
               PendingView(),
               DeliveryView(),
-              FailedView(),
+              // FailedView(),
             ],
           ),
         ));
